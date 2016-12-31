@@ -13,10 +13,13 @@ import MBProgressHUD
 class MoviesViewController: UIViewController, UITableViewDataSource, UITableViewDelegate {
 
     @IBOutlet weak var tableView: UITableView!
+    @IBOutlet weak var errorView: UIView!
     var movies: [NSDictionary]?
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        self.errorView.isHidden = true
+        self.view.bringSubview(toFront: errorView)
         let refreshControl = UIRefreshControl()
         refreshControl.addTarget(self, action: #selector(refreshControlAction(refreshControl:)), for: UIControlEvents.valueChanged)
         self.tableView.insertSubview(refreshControl, at: 0)
@@ -41,6 +44,8 @@ class MoviesViewController: UIViewController, UITableViewDataSource, UITableView
                     self.movies = responseDictionary["results"] as? [NSDictionary]
                     self.tableView.reloadData()
                 }
+            } else {
+                self.errorView.isHidden = false
             }
             // Hide HUD once the network request comes back
             MBProgressHUD.hide(for: self.tableView, animated: true)
@@ -62,7 +67,9 @@ class MoviesViewController: UIViewController, UITableViewDataSource, UITableView
         let task: URLSessionDataTask = session.dataTask(with: request as URLRequest,completionHandler: { (dataOrNil, response, error) in
             
             if let data = dataOrNil {
-                
+                if self.errorView.isHidden == false {
+                    self.errorView.isHidden = true
+                }
                 if let responseDictionary = try! JSONSerialization.jsonObject(with: data, options:[]) as? NSDictionary {
                     print("response: \(responseDictionary)")
                     self.movies = responseDictionary["results"] as? [NSDictionary]
