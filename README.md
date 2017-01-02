@@ -1,6 +1,6 @@
 # Project 1 - *Flicks*
 
-**Flicks** is a movies app using the [The Movie Database API](http://docs.themoviedb.apiary.io/#).
+**Flicks** is a movies app using the [The Movie Database API](https://developers.themoviedb.org/3).
 
 Time spent: **TBD** hours spent in total
 
@@ -41,6 +41,8 @@ GIF created with [LiceCap](http://www.cockos.com/licecap/).
 ## Notes
 
 Describe any challenges encountered while building the app.
+
+1. I took a good bit of time trying to figure out where to put the UIView that shows the network error message on the story board so it appears at the top of the screen but does not push the first cell down in the table view. 
 
 ## License
 
