@@ -10,9 +10,9 @@ import UIKit
 import AFNetworking
 import MBProgressHUD
 
-class MoviesViewController: UIViewController, UITableViewDataSource, UITableViewDelegate {
+class MoviesViewController: UIViewController, UICollectionViewDataSource {
 
-    @IBOutlet weak var tableView: UITableView!
+    @IBOutlet weak var collectionView: UICollectionView!
     @IBOutlet weak var errorView: UIView!
     var movies: [NSDictionary]?
     
@@ -21,11 +21,11 @@ class MoviesViewController: UIViewController, UITableViewDataSource, UITableView
         self.errorView.isHidden = true
         self.view.bringSubview(toFront: errorView)
         let refreshControl = UIRefreshControl()
-        refreshControl.addTarget(self, action: #selector(refreshControlAction(refreshControl:)), for: UIControlEvents.valueChanged)
-        self.tableView.insertSubview(refreshControl, at: 0)
         
-        self.tableView.delegate = self
-        self.tableView.dataSource = self
+        refreshControl.addTarget(self, action: #selector(refreshControlAction(refreshControl:)), for: UIControlEvents.valueChanged)
+        self.collectionView.insertSubview(refreshControl, at: 0)
+        
+        self.collectionView.dataSource = self
         
         let apiKey = "a07e22bc18f5cb106bfe4cc1f83ad8ed"
         let url = URL(string: "https://api.themoviedb.org/3/movie/now_playing?api_key=\(apiKey)")
@@ -33,7 +33,7 @@ class MoviesViewController: UIViewController, UITableViewDataSource, UITableView
         let session = URLSession(configuration: .default, delegate: nil, delegateQueue: OperationQueue.main)
         
         // Display HUD right before the request is made
-        MBProgressHUD.showAdded(to: self.tableView, animated: true)
+        MBProgressHUD.showAdded(to: self.collectionView, animated: true)
         
         let task: URLSessionDataTask = session.dataTask(with: request as URLRequest,completionHandler: { (dataOrNil, response, error) in
             
@@ -42,13 +42,13 @@ class MoviesViewController: UIViewController, UITableViewDataSource, UITableView
                 if let responseDictionary = try! JSONSerialization.jsonObject(with: data, options:[]) as? NSDictionary {
                     print("response: \(responseDictionary)")
                     self.movies = responseDictionary["results"] as? [NSDictionary]
-                    self.tableView.reloadData()
+                    self.collectionView.reloadData()
                 }
             } else {
                 self.errorView.isHidden = false
             }
             // Hide HUD once the network request comes back
-            MBProgressHUD.hide(for: self.tableView, animated: true)
+            MBProgressHUD.hide(for: self.collectionView, animated: true)
         })
         task.resume()
     }
@@ -73,16 +73,16 @@ class MoviesViewController: UIViewController, UITableViewDataSource, UITableView
                 if let responseDictionary = try! JSONSerialization.jsonObject(with: data, options:[]) as? NSDictionary {
                     print("response: \(responseDictionary)")
                     self.movies = responseDictionary["results"] as? [NSDictionary]
-                    self.tableView.reloadData()
+                    self.collectionView.reloadData()
                 }
             }
-            self.tableView.reloadData()
+            self.collectionView.reloadData()
             refreshControl.endRefreshing()
         })
         task.resume()
     }
     
-    public func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    public func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         if let movies = self.movies {
             return movies.count
         } else {
@@ -90,8 +90,10 @@ class MoviesViewController: UIViewController, UITableViewDataSource, UITableView
         }
     }
     
-    public func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "MovieCell", for: indexPath) as! MovieCell
+    
+    // The cell that is returned must be retrieved from a call to -dequeueReusableCellWithReuseIdentifier:forIndexPath:
+    public func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "MovieCell", for: indexPath) as! MovieCell
         let movie = movies![indexPath.row]
         let title = movie["title"] as! String
         let overview = movie["overview"] as! String
@@ -99,9 +101,7 @@ class MoviesViewController: UIViewController, UITableViewDataSource, UITableView
         let baseUrl = "https://image.tmdb.org/t/p/w500"
         let imageUrl = NSURL(string: baseUrl + posterPath)
         
-        cell.posterView.setImageWith(imageUrl as! URL)
-        cell.titleLabel.text = title
-        cell.overviewLabel.text = overview
+        cell.poster.setImageWith(imageUrl as! URL)
         return cell
     }
 
