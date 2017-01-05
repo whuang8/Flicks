@@ -30,6 +30,8 @@ class MoviesViewController: UIViewController, UICollectionViewDataSource, UIColl
         self.collectionView.alwaysBounceVertical = true
         
         self.searchBar.delegate = self
+        let searchTextField = self.searchBar.value(forKey: "searchField") as! UITextField
+        searchTextField.textColor = UIColor.white
         self.collectionView.dataSource = self
         
         let apiKey = "a07e22bc18f5cb106bfe4cc1f83ad8ed"
