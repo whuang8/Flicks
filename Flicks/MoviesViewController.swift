@@ -23,6 +23,7 @@ class MoviesViewController: UIViewController, UICollectionViewDataSource, UIColl
         self.errorView.isHidden = true
         self.view.bringSubview(toFront: errorView)
         let refreshControl = UIRefreshControl()
+        refreshControl.tintColor = UIColor.white
         
         refreshControl.addTarget(self, action: #selector(refreshControlAction(refreshControl:)), for: UIControlEvents.valueChanged)
         self.collectionView.insertSubview(refreshControl, at: 0)
@@ -106,8 +107,31 @@ class MoviesViewController: UIViewController, UICollectionViewDataSource, UIColl
         let posterPath = movie["poster_path"] as! String
         let baseUrl = "https://image.tmdb.org/t/p/w500"
         let imageUrl = NSURL(string: baseUrl + posterPath)
+        let imageRequest = NSURLRequest(url: imageUrl as! URL)
+        //cell.poster.setImageWith(imageUrl as! URL)
         
-        cell.poster.setImageWith(imageUrl as! URL)
+        cell.poster.setImageWith(
+            imageRequest as URLRequest,
+            placeholderImage: nil,
+            success: { (imageRequest, imageResponse, image) -> Void in
+                
+                // imageResponse will be nil if the image is cached
+                if imageResponse != nil {
+                    print("Image was NOT cached, fade in image")
+                    cell.poster.alpha = 0.0
+                    cell.poster.image = image
+                    UIView.animate(withDuration: 0.3, animations: { () -> Void in
+                        cell.poster.alpha = 1.0
+                    })
+                } else {
+                    print("Image was cached so just update the image")
+                    cell.poster.image = image
+                }
+        },
+            failure: { (imageRequest, imageResponse, error) -> Void in
+                print("Something wrong occured")
+        })
+        
         return cell
     }
     
