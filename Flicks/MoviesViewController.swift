@@ -10,11 +10,13 @@ import UIKit
 import AFNetworking
 import MBProgressHUD
 
-class MoviesViewController: UIViewController, UICollectionViewDataSource, UICollectionViewDelegate{
+class MoviesViewController: UIViewController, UICollectionViewDataSource, UICollectionViewDelegate, UISearchBarDelegate{
 
     @IBOutlet weak var collectionView: UICollectionView!
     @IBOutlet weak var errorView: UIView!
+    @IBOutlet weak var searchBar: UISearchBar!
     var movies: [NSDictionary]?
+    var filteredMovies: [NSDictionary]?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -25,6 +27,7 @@ class MoviesViewController: UIViewController, UICollectionViewDataSource, UIColl
         refreshControl.addTarget(self, action: #selector(refreshControlAction(refreshControl:)), for: UIControlEvents.valueChanged)
         self.collectionView.insertSubview(refreshControl, at: 0)
         
+        self.searchBar.delegate = self
         self.collectionView.dataSource = self
         
         let apiKey = "a07e22bc18f5cb106bfe4cc1f83ad8ed"
@@ -43,6 +46,7 @@ class MoviesViewController: UIViewController, UICollectionViewDataSource, UIColl
                     print("response: \(responseDictionary)")
                     self.movies = responseDictionary["results"] as? [NSDictionary]
                     self.collectionView.reloadData()
+                    self.filteredMovies = self.movies
                 }
             } else {
                 self.errorView.isHidden = false
@@ -83,7 +87,7 @@ class MoviesViewController: UIViewController, UICollectionViewDataSource, UIColl
     }
     
     public func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        if let movies = self.movies {
+        if let movies = self.filteredMovies {
             return movies.count
         } else {
             return 0
@@ -94,13 +98,32 @@ class MoviesViewController: UIViewController, UICollectionViewDataSource, UIColl
     // The cell that is returned must be retrieved from a call to -dequeueReusableCellWithReuseIdentifier:forIndexPath:
     public func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "MovieCell", for: indexPath) as! MovieCell
-        let movie = movies![indexPath.row]
+        let movie = filteredMovies![indexPath.row]
         let posterPath = movie["poster_path"] as! String
         let baseUrl = "https://image.tmdb.org/t/p/w500"
         let imageUrl = NSURL(string: baseUrl + posterPath)
         
         cell.poster.setImageWith(imageUrl as! URL)
         return cell
+    }
+    
+    public func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
+        filteredMovies = searchText.isEmpty ? movies : movies?.filter({(movie: NSDictionary) -> Bool in
+            let title = movie["title"] as! String
+            return title.range(of: searchText, options: .caseInsensitive) != nil
+        })
+        
+        self.collectionView.reloadData()
+    }
+    
+    func searchBarTextDidBeginEditing(_ searchBar: UISearchBar) {
+        self.searchBar.showsCancelButton = true
+    }
+    
+    func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {
+        searchBar.showsCancelButton = false
+        searchBar.text = ""
+        searchBar.resignFirstResponder()
     }
 
     /*
