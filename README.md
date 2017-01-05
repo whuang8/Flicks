@@ -23,12 +23,13 @@ The following **optional** features are implemented:
 
 The following **additional** features are implemented:
 
-- [ ] List anything else that you can get done to improve the app functionality!
+- [x] Implemented a homepage shortcut using 3D touch. User can choose to view 'now playing' movies. This will be build out more as I build more categories into Flicks.
+- [x] Add Icon images to the app.
 
 Please list two areas of the assignment you'd like to **discuss further with your peers** during the next class (examples include better ways to implement something, how to extend your app in certain ways, etc):
 
-1. 
-2. 
+1. When to use storyboard and when to implement programmatically?
+2. Correct way to store api keys.
 
 ## Video Walkthrough 
 
@@ -43,6 +44,8 @@ GIF created with [LiceCap](http://www.cockos.com/licecap/).
 Describe any challenges encountered while building the app.
 
 1. I took a good bit of time trying to figure out where to put the UIView that shows the network error message on the story board so it appears at the top of the screen but does not push the first cell down in the table view. 
+
+2. Still learning Swift syntax
 
 ## License
 
