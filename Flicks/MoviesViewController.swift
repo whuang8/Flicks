@@ -27,6 +27,7 @@ class MoviesViewController: UIViewController, UICollectionViewDataSource, UIColl
         
         refreshControl.addTarget(self, action: #selector(refreshControlAction(refreshControl:)), for: UIControlEvents.valueChanged)
         self.collectionView.insertSubview(refreshControl, at: 0)
+        self.collectionView.alwaysBounceVertical = true
         
         self.searchBar.delegate = self
         self.collectionView.dataSource = self
@@ -99,7 +100,6 @@ class MoviesViewController: UIViewController, UICollectionViewDataSource, UIColl
         }
     }
     
-    
     // The cell that is returned must be retrieved from a call to -dequeueReusableCellWithReuseIdentifier:forIndexPath:
     public func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "MovieCell", for: indexPath) as! MovieCell
@@ -108,7 +108,6 @@ class MoviesViewController: UIViewController, UICollectionViewDataSource, UIColl
         let baseUrl = "https://image.tmdb.org/t/p/w500"
         let imageUrl = NSURL(string: baseUrl + posterPath)
         let imageRequest = NSURLRequest(url: imageUrl as! URL)
-        //cell.poster.setImageWith(imageUrl as! URL)
         
         cell.poster.setImageWith(
             imageRequest as URLRequest,
@@ -154,6 +153,34 @@ class MoviesViewController: UIViewController, UICollectionViewDataSource, UIColl
         searchBar.resignFirstResponder()
     }
 
+    @IBAction func errorOnTap(_ sender: Any) {
+        let apiKey = "a07e22bc18f5cb106bfe4cc1f83ad8ed"
+        let url = URL(string: "https://api.themoviedb.org/3/movie/now_playing?api_key=\(apiKey)")
+        let request = URLRequest(url: url!, cachePolicy: .reloadIgnoringLocalCacheData, timeoutInterval: 10)
+        let session = URLSession(configuration: .default, delegate: nil, delegateQueue: OperationQueue.main)
+        
+        // Display HUD right before the request is made
+        MBProgressHUD.showAdded(to: self.collectionView, animated: true)
+        
+        let task: URLSessionDataTask = session.dataTask(with: request as URLRequest,completionHandler: { (dataOrNil, response, error) in
+            
+            if let data = dataOrNil {
+                
+                if let responseDictionary = try! JSONSerialization.jsonObject(with: data, options:[]) as? NSDictionary {
+                    print("response: \(responseDictionary)")
+                    self.movies = responseDictionary["results"] as? [NSDictionary]
+                    self.collectionView.reloadData()
+                    self.filteredMovies = self.movies
+                }
+            } else {
+                self.errorView.isHidden = false
+            }
+            // Hide HUD once the network request comes back
+            MBProgressHUD.hide(for: self.collectionView, animated: true)
+        })
+        task.resume()
+        self.errorView.isHidden = true
+    }
     /*
     // MARK: - Navigation
 
