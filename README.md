@@ -30,12 +30,13 @@ Please list two areas of the assignment you'd like to **discuss further with you
 
 1. When to use storyboard and when to implement programmatically?
 2. Correct way to store api keys.
+3. Multithreading & updating on the main thread
 
 ## Video Walkthrough 
 
 Here's a walkthrough of implemented user stories:
 
-<img src='http://i.imgur.com/link/to/your/gif/file.gif' title='Video Walkthrough' width='' alt='Video Walkthrough' />
+<img src='FlicksDemo.gif' title='Video Walkthrough' width='' alt='Video Walkthrough' />
 
 GIF created with [LiceCap](http://www.cockos.com/licecap/).
 
