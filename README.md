@@ -2,7 +2,7 @@
 
 **Flicks** is a movies app using the [The Movie Database API](https://developers.themoviedb.org/3).
 
-Time spent: **TBD** hours spent in total
+Time spent: **10** hours spent in total
 
 ## User Stories
 
