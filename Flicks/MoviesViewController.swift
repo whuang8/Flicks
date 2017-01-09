@@ -59,33 +59,33 @@ class MoviesViewController: UIViewController, UICollectionViewDataSource, UIColl
     public func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "MovieCell", for: indexPath) as! MovieCell
         let movie = filteredMovies![indexPath.row]
-        let posterPath = movie["poster_path"] as! String
         let baseUrl = "https://image.tmdb.org/t/p/w500"
-        let imageUrl = NSURL(string: baseUrl + posterPath)
-        let imageRequest = NSURLRequest(url: imageUrl as! URL)
+        if let posterPath = movie["poster_path"] as? String {
+            let imageUrl = NSURL(string: baseUrl + posterPath)
+            let imageRequest = NSURLRequest(url: imageUrl as! URL)
         
-        cell.poster.setImageWith(
-            imageRequest as URLRequest,
-            placeholderImage: nil,
-            success: { (imageRequest, imageResponse, image) -> Void in
+            cell.poster.setImageWith(
+                imageRequest as URLRequest,
+                placeholderImage: nil,
+                success: { (imageRequest, imageResponse, image) -> Void in
                 
-                // imageResponse will be nil if the image is cached
-                if imageResponse != nil {
-                    print("Image was NOT cached, fade in image")
-                    cell.poster.alpha = 0.0
-                    cell.poster.image = image
-                    UIView.animate(withDuration: 0.3, animations: { () -> Void in
+                    // imageResponse will be nil if the image is cached
+                    if imageResponse != nil {
+                        print("Image was NOT cached, fade in image")
+                        cell.poster.alpha = 0.0
+                        cell.poster.image = image
+                        UIView.animate(withDuration: 0.3, animations: { () -> Void in
                         cell.poster.alpha = 1.0
                     })
-                } else {
-                    print("Image was cached so just update the image")
-                    cell.poster.image = image
-                }
-        },
-            failure: { (imageRequest, imageResponse, error) -> Void in
+                    } else {
+                        print("Image was cached so just update the image")
+                        cell.poster.image = image
+                    }
+            },
+                failure: { (imageRequest, imageResponse, error) -> Void in
                 print("Something wrong occured")
-        })
-        
+            })
+        }
         return cell
     }
     
@@ -152,14 +152,18 @@ class MoviesViewController: UIViewController, UICollectionViewDataSource, UIColl
         task.resume()
     }
     
-    /*
+    
     // MARK: - Navigation
 
     // In a storyboard-based application, you will often want to do a little preparation before navigation
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
+        let cell = sender as! UICollectionViewCell
+        let indexPath = self.collectionView.indexPath(for: cell)
+        let movie = self.movies?[(indexPath?.row)!]
+        
+        let detailViewController = segue.destination as! DetailViewController
+        detailViewController.movie = movie
     }
-    */
+ 
 
 }
