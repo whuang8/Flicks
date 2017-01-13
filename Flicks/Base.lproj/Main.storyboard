@@ -17,14 +17,6 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <searchBar contentMode="redraw" misplaced="YES" searchBarStyle="minimal" id="2Z4-Rd-i2w">
-                                <rect key="frame" x="0.0" y="21" width="375" height="44"/>
-                                <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
-                                <color key="backgroundColor" red="0.27450980392156865" green="0.3411764705882353" blue="0.45882352941176469" alpha="1" colorSpace="calibratedRGB"/>
-                                <color key="tintColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                <color key="barTintColor" red="0.27450980390000002" green="0.3411764706" blue="0.45882352939999999" alpha="1" colorSpace="calibratedRGB"/>
-                                <textInputTraits key="textInputTraits"/>
-                            </searchBar>
                             <view hidden="YES" alpha="0.80000000000000004" contentMode="scaleToFill" misplaced="YES" id="sJt-Il-XRG">
                                 <rect key="frame" x="0.0" y="65" width="375" height="40"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
@@ -48,7 +40,7 @@
                                 </connections>
                             </view>
                             <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" misplaced="YES" dataMode="prototypes" id="Pr8-cG-b8Q">
-                                <rect key="frame" x="0.0" y="65" width="375" height="647"/>
+                                <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <color key="backgroundColor" red="0.27450980392156865" green="0.3411764705882353" blue="0.45882352941176469" alpha="1" colorSpace="calibratedRGB"/>
                                 <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="0.0" minimumInteritemSpacing="0.0" id="Da8-49-Lhv">
@@ -81,11 +73,17 @@
                         </subviews>
                         <color key="backgroundColor" red="0.27450980392156865" green="0.3411764705882353" blue="0.45882352941176469" alpha="1" colorSpace="calibratedRGB"/>
                     </view>
-                    <navigationItem key="navigationItem" id="9jQ-jX-iIX"/>
+                    <navigationItem key="navigationItem" id="9jQ-jX-iIX">
+                        <barButtonItem key="rightBarButtonItem" systemItem="search" id="6qC-iX-4Ow">
+                            <connections>
+                                <action selector="searchButtonPressed:" destination="BYZ-38-t0r" id="BII-Hz-4Xl"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
                     <connections>
                         <outlet property="collectionView" destination="Pr8-cG-b8Q" id="zqo-jD-ulY"/>
                         <outlet property="errorView" destination="sJt-Il-XRG" id="LOJ-Qh-KYD"/>
-                        <outlet property="searchBar" destination="2Z4-Rd-i2w" id="qyK-QY-b43"/>
+                        <outlet property="searchButton" destination="6qC-iX-4Ow" id="Uxy-Y8-gAO"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
@@ -160,6 +158,7 @@
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="YXj-dy-Evy">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
+                        <color key="backgroundColor" red="0.27450980390000002" green="0.3411764706" blue="0.45882352939999999" alpha="1" colorSpace="calibratedRGB"/>
                     </navigationBar>
                     <nil name="viewControllers"/>
                     <connections>

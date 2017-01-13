@@ -14,14 +14,24 @@ class MoviesViewController: UIViewController, UICollectionViewDataSource, UIColl
 
     @IBOutlet weak var collectionView: UICollectionView!
     @IBOutlet weak var errorView: UIView!
-    @IBOutlet weak var searchBar: UISearchBar!
+    @IBOutlet var searchButton: UIBarButtonItem!
     private var movies: [NSDictionary]?
     private var filteredMovies: [NSDictionary]?
     private let refreshControl = UIRefreshControl()
+    private let searchBar = UISearchBar()
     var endpoint: String?
+    var pageTitle: String?
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        // Create search bar
+        searchBar.sizeToFit()
+        searchBar.delegate = self
+        self.navigationItem.rightBarButtonItem = searchButton
+        self.navigationItem.title = pageTitle ?? "Flicks"
+        
+        
         self.errorView.isHidden = true
         self.view.bringSubview(toFront: errorView)
         refreshControl.tintColor = UIColor.white
@@ -29,9 +39,7 @@ class MoviesViewController: UIViewController, UICollectionViewDataSource, UIColl
         self.collectionView.dataSource = self
         self.collectionView.insertSubview(refreshControl, at: 0)
         self.collectionView.alwaysBounceVertical = true
-        self.searchBar.delegate = self
-        let searchTextField = self.searchBar.value(forKey: "searchField") as! UITextField
-        searchTextField.textColor = UIColor.white
+        
         getMovies(refresh: false)
     }
 
@@ -88,6 +96,11 @@ class MoviesViewController: UIViewController, UICollectionViewDataSource, UIColl
         }
         return cell
     }
+    @IBAction func searchButtonPressed(_ sender: Any) {
+        self.navigationItem.rightBarButtonItem = nil
+        self.searchBar.becomeFirstResponder()
+        self.navigationItem.titleView = self.searchBar
+    }
     
     public func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
         filteredMovies = searchText.isEmpty ? movies : movies?.filter({(movie: NSDictionary) -> Bool in
@@ -98,13 +111,16 @@ class MoviesViewController: UIViewController, UICollectionViewDataSource, UIColl
     }
     
     func searchBarTextDidBeginEditing(_ searchBar: UISearchBar) {
-        self.searchBar.showsCancelButton = true
+        searchBar.showsCancelButton = true
     }
     
     func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {
         searchBar.showsCancelButton = false
         searchBar.text = ""
         searchBar.resignFirstResponder()
+        self.navigationItem.titleView = nil
+        self.navigationItem.title = pageTitle ?? "Flicks"
+        self.navigationItem.rightBarButtonItem = self.searchButton
     }
 
     @IBAction func errorOnTap(_ sender: Any) {
