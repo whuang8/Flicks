@@ -18,10 +18,10 @@ class MoviesViewController: UIViewController, UICollectionViewDataSource, UIColl
     private var movies: [NSDictionary]?
     private var filteredMovies: [NSDictionary]?
     private let refreshControl = UIRefreshControl()
+    var endpoint: String?
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
         self.errorView.isHidden = true
         self.view.bringSubview(toFront: errorView)
         refreshControl.tintColor = UIColor.white
@@ -114,7 +114,10 @@ class MoviesViewController: UIViewController, UICollectionViewDataSource, UIColl
     
     func getMovies(refresh: Bool) -> Void {
         let apiKey = "a07e22bc18f5cb106bfe4cc1f83ad8ed"
-        let url = URL(string: "https://api.themoviedb.org/3/movie/now_playing?api_key=\(apiKey)")
+        var url = URL(string: "https://api.themoviedb.org/3/movie/now_playing?api_key=\(apiKey)")
+        if let endpnt = self.endpoint {
+            url = URL(string: "https://api.themoviedb.org/3/movie/\(endpnt)?api_key=\(apiKey)")
+        }
         let request = URLRequest(url: url!, cachePolicy: .reloadIgnoringLocalCacheData, timeoutInterval: 10)
         let session = URLSession(configuration: .default, delegate: nil, delegateQueue: OperationQueue.main)
         
