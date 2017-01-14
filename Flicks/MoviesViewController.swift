@@ -24,7 +24,6 @@ class MoviesViewController: UIViewController, UICollectionViewDataSource, UIColl
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
         // Create search bar
         searchBar.sizeToFit()
         searchBar.delegate = self

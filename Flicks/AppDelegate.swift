@@ -14,22 +14,21 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     var window: UIWindow?
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
-        
         window = UIWindow(frame: UIScreen.main.bounds)
         let storyboard = UIStoryboard(name: "Main", bundle: nil)
         let nowPlayingNavigationController = storyboard.instantiateViewController(withIdentifier: "MoviesNavigationController") as! UINavigationController
         let nowPlayingViewController = nowPlayingNavigationController.topViewController as! MoviesViewController
         nowPlayingViewController.endpoint = "now_playing"
         nowPlayingViewController.pageTitle = "Now Playing"
-        nowPlayingNavigationController.tabBarItem.title = "Now Playing"
-        nowPlayingNavigationController.tabBarItem.image = UIImage(named: "now_playing")
+        nowPlayingNavigationController.tabBarItem = UITabBarItem(title: "Now Playing", image: UIImage(named: "now_playing"), tag: 0)
+        //nowPlayingNavigationController.tabBarItem.title = "Now Playing"
+        //nowPlayingNavigationController.tabBarItem.image = UIImage(named: "now_playing")
         
         let topRatedNavigationController = storyboard.instantiateViewController(withIdentifier: "MoviesNavigationController") as! UINavigationController
         let topRatedViewController = topRatedNavigationController.topViewController as! MoviesViewController
         topRatedViewController.endpoint = "top_rated"
         topRatedViewController.pageTitle = "Top Rated"
-        topRatedNavigationController.tabBarItem.title = "Top Rated"
-        topRatedNavigationController.tabBarItem.image = UIImage(named: "top_rated")
+        topRatedNavigationController.tabBarItem = UITabBarItem(tabBarSystemItem: UITabBarSystemItem.topRated, tag: 0)
         
         let tabBarController = UITabBarController()
         tabBarController.tabBar.backgroundColor = UIColor(red: 70/255, green: 87/255, blue: 117/255, alpha: 1)
