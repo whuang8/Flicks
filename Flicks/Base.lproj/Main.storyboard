@@ -111,11 +111,11 @@
                                 <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <subviews>
-                                    <view alpha="0.84999999999999998" contentMode="scaleToFill" misplaced="YES" id="9UR-gJ-t5O">
-                                        <rect key="frame" x="0.0" y="441" width="375" height="267"/>
+                                    <view alpha="0.91000000000000003" contentMode="scaleToFill" misplaced="YES" id="9UR-gJ-t5O">
+                                        <rect key="frame" x="0.0" y="441" width="375" height="352"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <subviews>
-                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="Title" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="omi-8r-5Jn">
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="Title" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="omi-8r-5Jn">
                                                 <rect key="frame" x="19" y="17" width="337" height="32"/>
                                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                 <fontDescription key="fontDescription" type="boldSystem" pointSize="22"/>
@@ -129,6 +129,11 @@
                                                 <color key="textColor" red="0.27450980390000002" green="0.33725490200000002" blue="0.45882352939999999" alpha="1" colorSpace="calibratedRGB"/>
                                                 <nil key="highlightedColor"/>
                                             </label>
+                                            <webView contentMode="scaleToFill" misplaced="YES" id="qYr-Fg-cuk">
+                                                <rect key="frame" x="23" y="131" width="333" height="180"/>
+                                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                <color key="backgroundColor" red="0.36078431370000003" green="0.38823529410000002" blue="0.4039215686" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                            </webView>
                                         </subviews>
                                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                     </view>
@@ -144,6 +149,7 @@
                         <outlet property="posterImageView" destination="LUw-oB-gnK" id="8M9-Bh-eHk"/>
                         <outlet property="scrollView" destination="AxZ-fu-Xdn" id="Ot2-hV-4BD"/>
                         <outlet property="titleLabel" destination="omi-8r-5Jn" id="BNJ-XW-lb7"/>
+                        <outlet property="videoView" destination="qYr-Fg-cuk" id="6D6-yZ-fAu"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="YKO-qS-maD" userLabel="First Responder" sceneMemberID="firstResponder"/>
