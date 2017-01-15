@@ -16,13 +16,18 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
         window = UIWindow(frame: UIScreen.main.bounds)
         let storyboard = UIStoryboard(name: "Main", bundle: nil)
+        
         let nowPlayingNavigationController = storyboard.instantiateViewController(withIdentifier: "MoviesNavigationController") as! UINavigationController
         let nowPlayingViewController = nowPlayingNavigationController.topViewController as! MoviesViewController
         nowPlayingViewController.endpoint = "now_playing"
         nowPlayingViewController.pageTitle = "Now Playing"
         nowPlayingNavigationController.tabBarItem = UITabBarItem(title: "Now Playing", image: UIImage(named: "now_playing"), tag: 0)
-        //nowPlayingNavigationController.tabBarItem.title = "Now Playing"
-        //nowPlayingNavigationController.tabBarItem.image = UIImage(named: "now_playing")
+        
+        let upcomingNavigationController = storyboard.instantiateViewController(withIdentifier: "MoviesNavigationController") as! UINavigationController
+        let upcomingViewController = upcomingNavigationController.topViewController as! MoviesViewController
+        upcomingViewController.endpoint = "upcoming"
+        upcomingViewController.pageTitle = "Upcoming"
+        upcomingNavigationController.tabBarItem = UITabBarItem(title: "Upcoming", image: UIImage(named: "upcoming"), tag: 0)
         
         let topRatedNavigationController = storyboard.instantiateViewController(withIdentifier: "MoviesNavigationController") as! UINavigationController
         let topRatedViewController = topRatedNavigationController.topViewController as! MoviesViewController
@@ -30,9 +35,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         topRatedViewController.pageTitle = "Top Rated"
         topRatedNavigationController.tabBarItem = UITabBarItem(tabBarSystemItem: UITabBarSystemItem.topRated, tag: 0)
         
+        
         let tabBarController = UITabBarController()
         tabBarController.tabBar.backgroundColor = UIColor(red: 70/255, green: 87/255, blue: 117/255, alpha: 1)
-        tabBarController.viewControllers = [nowPlayingNavigationController, topRatedNavigationController]
+        tabBarController.tabBar.tintColor = UIColor(red: 70/255, green: 87/255, blue: 117/255, alpha: 1)
+        tabBarController.viewControllers = [nowPlayingNavigationController, upcomingNavigationController, topRatedNavigationController]
         window?.rootViewController = tabBarController
         window?.makeKeyAndVisible()
         return true
