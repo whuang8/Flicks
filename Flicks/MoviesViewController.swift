@@ -29,8 +29,6 @@ class MoviesViewController: UIViewController, UICollectionViewDataSource, UIColl
         searchBar.delegate = self
         self.navigationItem.rightBarButtonItem = searchButton
         self.navigationItem.title = pageTitle ?? "Flicks"
-        
-        
         self.errorView.isHidden = true
         self.view.bringSubview(toFront: errorView)
         refreshControl.tintColor = UIColor.white
@@ -68,25 +66,42 @@ class MoviesViewController: UIViewController, UICollectionViewDataSource, UIColl
         let movie = filteredMovies![indexPath.row]
         let baseUrl = "https://image.tmdb.org/t/p/w500"
         if let posterPath = movie["poster_path"] as? String {
-            let imageUrl = NSURL(string: baseUrl + posterPath)
-            let imageRequest = NSURLRequest(url: imageUrl as! URL)
+            let imageUrl = URL(string: baseUrl + posterPath)
+            let smallImageRequest = NSURLRequest(url: imageUrl!)
+            let largeImageRequest = NSURLRequest(url: imageUrl!)
         
             cell.poster.setImageWith(
-                imageRequest as URLRequest,
+                smallImageRequest as URLRequest,
                 placeholderImage: nil,
-                success: { (imageRequest, imageResponse, image) -> Void in
-                
+                success: { (smallImageRequest, smallImageResponse, smallImage) -> Void in
+                    
                     // imageResponse will be nil if the image is cached
-                    if imageResponse != nil {
-                        print("Image was NOT cached, fade in image")
-                        cell.poster.alpha = 0.0
-                        cell.poster.image = image
+                    if smallImageResponse != nil {
+                        
                         UIView.animate(withDuration: 0.3, animations: { () -> Void in
-                        cell.poster.alpha = 1.0
-                    })
+                            
+                            cell.poster.alpha = 1.0
+                            
+                        }, completion: { (sucess) -> Void in
+                            
+                            // The AFNetworking ImageView Category only allows one request to be sent at a time
+                            // per ImageView. This code must be in the completion block.
+                            cell.poster.setImageWith(
+                                largeImageRequest as URLRequest,
+                                placeholderImage: smallImage,
+                                success: { (largeImageRequest, largeImageResponse, largeImage) -> Void in
+                                    
+                                    cell.poster.image = largeImage;
+                                    
+                            },
+                                failure: { (request, response, error) -> Void in
+                                    // do something for the failure condition of the large image request
+                                    // possibly setting the ImageView's image to a default image
+                            })
+                        })
                     } else {
                         print("Image was cached so just update the image")
-                        cell.poster.image = image
+                        cell.poster.image = smallImage
                     }
             },
                 failure: { (imageRequest, imageResponse, error) -> Void in
@@ -95,6 +110,7 @@ class MoviesViewController: UIViewController, UICollectionViewDataSource, UIColl
         }
         return cell
     }
+    
     @IBAction func searchButtonPressed(_ sender: Any) {
         self.navigationItem.rightBarButtonItem = nil
         self.searchBar.becomeFirstResponder()
