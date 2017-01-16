@@ -33,7 +33,7 @@ class DetailViewController: UIViewController {
         self.infoView.frame = CGRect(x: infoView.frame.origin.x, y: infoView.frame.origin.y, width: infoView.frame.width, height: titleLabel.frame.height + overviewLabel.frame.height + videoView.frame.height + 100)
         self.overviewLabel.frame.origin.y = titleLabel.frame.origin.y + titleLabel.frame.height + 20.0
         videoView.frame.origin.y = overviewLabel.frame.origin.y + overviewLabel.frame.height + 30.0
-        scrollView.contentSize = CGSize(width: scrollView.frame.size.width, height: posterImageView.frame.height + infoView.frame.size.height)
+        scrollView.contentSize = CGSize(width: scrollView.frame.size.width, height: infoView.frame.origin.y + infoView.frame.size.height + 100)
     }
 
     override func didReceiveMemoryWarning() {
@@ -43,7 +43,7 @@ class DetailViewController: UIViewController {
     
     func loadYoutube(key: String) {
         guard
-            let videoURL = URL(string: "https://www.youtube.com/embed/\(key)")
+            let videoURL = URL(string: "https://www.youtube.com/embed/\(key)?modestbranding=1&showinfo=0")
             else { return }
         videoView.loadRequest( URLRequest(url: videoURL) )
     }
@@ -68,10 +68,10 @@ class DetailViewController: UIViewController {
                         let video = results[0]
                         let videoKey = video["key"] as! String
                         self.loadYoutube(key: videoKey)
+                        MBProgressHUD.hide(for: self.posterImageView, animated: true)
                     }
                 }
             })
-            MBProgressHUD.hide(for: self.posterImageView, animated: true)
             task.resume()
         }
     }
