@@ -202,11 +202,9 @@ class MoviesViewController: UIViewController, UICollectionViewDataSource, UIColl
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         let cell = sender as! UICollectionViewCell
         let indexPath = self.collectionView.indexPath(for: cell)
-        let movie = self.movies?[(indexPath?.row)!]
-        
+        let movie = self.filteredMovies?[(indexPath?.row)!]
         let detailViewController = segue.destination as! DetailViewController
         detailViewController.movie = movie
+        self.searchBar.resignFirstResponder()
     }
- 
-
 }

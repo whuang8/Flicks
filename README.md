@@ -87,14 +87,14 @@ Please list two areas of the assignment you'd like to **discuss further with you
 
 Here's a walkthrough of implemented user stories:
 
-<img src='http://i.imgur.com/link/to/your/gif/file.gif' title='Video Walkthrough' width='' alt='Video Walkthrough' />
+<img src='FlicksDemo2.gif' title='Video Walkthrough' width='' alt='Video Walkthrough' />
 
 GIF created with [LiceCap](http://www.cockos.com/licecap/).
 
 ## Notes
 
-Designing the app to look how I wanted proved challenging when moving storyboard elements around.
-
+- Designing the app to look how I wanted proved challenging when moving storyboard elements around.
+- [The Movie Database API](http://docs.themoviedb.apiary.io/#) sometimes categorizes movies in both 'Now Playing' and 'Upcoming' lists.
 
 ## License
 
