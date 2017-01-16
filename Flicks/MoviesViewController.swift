@@ -34,6 +34,7 @@ class MoviesViewController: UIViewController, UICollectionViewDataSource, UIColl
         refreshControl.tintColor = UIColor.white
         refreshControl.addTarget(self, action: #selector(refreshControlAction(refreshControl:)), for: UIControlEvents.valueChanged)
         self.collectionView.dataSource = self
+        self.collectionView.delegate = self
         self.collectionView.insertSubview(refreshControl, at: 0)
         self.collectionView.alwaysBounceVertical = true
         
@@ -51,6 +52,14 @@ class MoviesViewController: UIViewController, UICollectionViewDataSource, UIColl
     
     func refreshControlAction(refreshControl: UIRefreshControl) {
         getMovies(refresh: true)
+    }
+    
+    public func collectionView(_ collectionView: UICollectionView, didHighlightItemAt indexPath: IndexPath) {
+        self.collectionView.cellForItem(at: indexPath)?.alpha = 0.8
+    }
+    
+    public func collectionView(_ collectionView: UICollectionView, didUnhighlightItemAt indexPath: IndexPath) {
+        self.collectionView.cellForItem(at: indexPath)?.alpha = 1
     }
     
     public func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {

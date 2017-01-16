@@ -48,12 +48,15 @@ Describe any challenges encountered while building the app.
 
 2. Still learning Swift syntax
 
+---
+---
+---
 
 # Project 2 - *Flicks*
 
-**Flicks** is a movies app displaying box office and top rental DVDs using [The Movie Database API](http://docs.themoviedb.apiary.io/#).
+This second iteration of **Flicks** is a movies app displaying box office and top rental DVDs using [The Movie Database API](http://docs.themoviedb.apiary.io/#).
 
-Time spent: **X** hours spent in total
+Time spent: **9** hours spent in total
 
 ## User Stories
 
@@ -61,7 +64,7 @@ The following **required** functionality is completed:
 
 - [x] User can view movie details by tapping on a cell.
 - [x] User can select from a tab bar for either **Now Playing** or **Top Rated** movies.
-- [ ] Customize the selection effect of the cell.
+- [x] Customize the selection effect of the cell.
 
 The following **optional** features are implemented:
 
@@ -70,15 +73,15 @@ The following **optional** features are implemented:
 
 The following **additional** features are implemented:
 
-- [ ] Search bar pops into view on the search button being pressed
-- [ ] User can see upcoming movies using the 'Upcoming' tab
-- [ ] User can watch a specific movie's trailer in its respective detail view
+- [x] Search bar pops into view on the search button being pressed
+- [x] User can see upcoming movies using the 'Upcoming' tab
+- [x] User can watch a specific movie's trailer in its respective detail view
 
 
 Please list two areas of the assignment you'd like to **discuss further with your peers** during the next class (examples include better ways to implement something, how to extend your app in certain ways, etc):
 
-1. 
-2. 
+1. UX practices when user interacts with cells. How much feedback to give?
+2. Video takes more time to load than pictures. Best practice on loading videos?
 
 ## Video Walkthrough 
 
@@ -90,7 +93,7 @@ GIF created with [LiceCap](http://www.cockos.com/licecap/).
 
 ## Notes
 
-
+Designing the app to look how I wanted proved challenging when moving storyboard elements around.
 
 
 ## License
