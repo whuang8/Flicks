@@ -70,7 +70,10 @@ The following **optional** features are implemented:
 
 The following **additional** features are implemented:
 
-- [ ] List anything else that you can get done to improve the app functionality!
+- [ ] Search bar pops into view on the search button being pressed
+- [ ] User can see upcoming movies using the 'Upcoming' tab
+- [ ] User can watch a specific movie's trailer in its respective detail view
+
 
 Please list two areas of the assignment you'd like to **discuss further with your peers** during the next class (examples include better ways to implement something, how to extend your app in certain ways, etc):
 
